@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TaskController!{% endblock %}
+
+
+
+{% block body %}
+
+{% block javascripts %}
+<script src='js/index.global.min.js'></script>
+  
+{% endblock %}
+
+<div id="calendar"></div>
+{% block scripts %}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: [
+        {% for tarea in tareas %}
+            {
+                id: {{tarea.id}},
+                title: "{{tarea.event.name}}",
+                start: '{{tarea.start_time  | date('Y-m-d')}}',
+                end: '{{tarea.end_time  | date('Y-m-d')}}',
+                url: '/task'
+            }
+        {% endfor %}
+      ]
+    });
+    calendar.render();
+  });
+</script>
+{% endblock %}
+
+{% endblock %}

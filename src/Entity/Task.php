@@ -40,24 +40,24 @@ class Task
         return $this->id;
     }
 
-    public function getStartTime(): ?\DateTimeInterface
+    public function getStart_Time(): ?\DateTimeInterface
     {
         return $this->start_time;
     }
 
-    public function setStartTime(?\DateTimeInterface $start_time): self
+    public function setStart_Time(?\DateTimeInterface $start_time): self
     {
         $this->start_time = $start_time;
 
         return $this;
     }
 
-    public function getEndTime(): ?\DateTimeInterface
+    public function getEnd_Time(): ?\DateTimeInterface
     {
         return $this->end_time;
     }
 
-    public function setEndTime(?\DateTimeInterface $end_time): self
+    public function setEnd_Time(?\DateTimeInterface $end_time): self
     {
         $this->end_time = $end_time;
 
