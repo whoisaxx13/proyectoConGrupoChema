@@ -21,8 +21,8 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{dni}', name: 'app_admin_show', methods:["GET"])]
-    public function show(Request $request, UserRepository $userRepository, $dni): Response
+    #[Route('/user/{dni}', name: 'app_admin_user_report', methods:["GET"])]
+    public function userReport(Request $request, UserRepository $userRepository, $dni): Response
     {
         $filter=$request->get("month");
         $tasksFiltered=[];
@@ -53,6 +53,14 @@ class AdminController extends AbstractController
             'tasks' => $tasksFiltered,
             'startTime' => $arrStart,
         ]);
+    }
+
+
+    #[Route('/event/{id}', name: 'app_admin_event_report', methods:["GET"])]
+    public function eventReport(Request $request, EventRepository $eventRepository, $dni): Response
+    {
+
+
     }
     
 }
