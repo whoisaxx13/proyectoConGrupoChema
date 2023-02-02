@@ -13,11 +13,68 @@ use App\Repository\UserRepository;
 class AdminController extends AbstractController
 {
 
-    #[Route('/', name: 'app_admin')]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_admin', methods: ['GET'])]
+    public function index(Request $request, UserRepository $userRepository): Response
     {
+
+        $filter_month = $request->get('mes');
+        $filter_year = $request->get('año');
+        $users = $userRepository->findAll();
+
+        $user_logs = [];
+
+        foreach ($users as $user){
+            $tasks = $user->getTasks();
+
+            $hours = 0;
+            $minutes = 0;
+
+
+            foreach ($tasks as $task){
+
+                if(!isset($filter_year)){
+                    $filter_year = date("Y");
+                }
+
+                if(!isset($filter_month)){
+                    $filter_month = (int) date('m') - 1;
+                    if(!isset($filter_year)) $filter_year = $filter_month == 12 ? (int) $filter_year -1 : $filter_year;
+                }
+
+                if($filter_month == $task->getStartTime()->format('m') && $filter_year == $task->getStartTime()->format('Y')){
+                    $hours += $task->getStartTime()->diff($task->getEndTime())->h;
+                    $minutes += $task->getStartTime()->diff($task->getEndTime())->i;
+                }
+            }
+
+            $hours += floor($minutes / 60);
+            $minutes = $minutes % 60;
+
+            $objectUser = new \stdClass();
+            $objectUser->id = $user->getId();
+            $objectUser->fullname = $user->getFullName();
+            $objectUser->hours = $hours;
+            $objectUser->minutes = $minutes < 10 ? "0$minutes" : $minutes;
+            $objectUser->date = "$filter_month/$filter_year";
+
+            $user_logs[] = $objectUser;
+
+        }
+
+        $years = [];
+
+        $months_tmp = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        $currentYear = date('Y');
+        for ($i = $currentYear; $i >= $currentYear - 5; $i--) {
+            $years[] = $i;
+        }
+
         return $this->render('admin/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'trabajadores' => $user_logs,
+            'years' => $years,
+            'meses' => $months_tmp,
+            'filter_month' => $filter_month
         ]);
     }
 
