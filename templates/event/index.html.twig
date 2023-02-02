@@ -29,8 +29,11 @@
                 <td>{{ event.linkForm }}</td>
                 <td>{{ event.workersNumber }}</td>
                 <td>
-                    <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
+                    <a href="{{ path('app_admin_user_report', {'id': event.id}) }}">show</a>
                     <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_admin_event_report', {'id': event.id}) }}">event report</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
