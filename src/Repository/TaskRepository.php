@@ -39,6 +39,20 @@ class TaskRepository extends ServiceEntityRepository
         }
     }
 
+       /**
+    * @return Task[] Returns an array of Task objects
+    */
+   public function getHorasMensuales($value): array
+   {
+       return $this->createQueryBuilder('t')
+           ->andWhere('t.exampleField = :val')
+           ->setParameter('val', $value)
+           ->orderBy('t.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */

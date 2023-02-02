@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TaskController!{% endblock %}
+
+
+
+{% block body %}
+
+{% block javascripts %}
+<script src='js/index.global.min.js'></script>
+  
+{% endblock %}
+
+<div id="calendar"></div>
+{% block scripts %}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: [
+        {% for tarea in tareas %}
+            {
+                id: {{tarea.id}},
+                title: "{{tarea.event.name}}",
+                start: '{{tarea.start_time  | date('Y-m-d')}}',
+                end: '{{ tarea.end_time|date_modify("+1 day")|date("Y-m-d") }}',
+                url: '/task/{{tarea.id}}'
+            }
+        {% endfor %}
+      ]
+    });
+    calendar.render();
+
+    var $title = document.querySelector('#calendar div:nth-of-type(2)');
+    $title.innerHTML = '<h2>Horas mensuales: {{ app.user.monthlytime }} Horas restantes: {{ app.user.monthlytime }}</h2>';
+    
+  });
+</script>
+{% endblock %}
+
+{% endblock %}

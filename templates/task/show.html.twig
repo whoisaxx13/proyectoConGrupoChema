@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{task.event.name}} | Tareas{% endblock %}
+{% block body %}
+    
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class="text-right m-4" style="font-size:22pt">Tareas</th>
+            </tr>
+            <tr>
+                <th>Nombre de la tarea</th>
+                <td>{{ task.event.name }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de inicio</th>
+                <td>{{ task.start_Time ? task.start_Time|date('d/m/Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de finalización</th>
+                <td>{{ task.end_Time ? task.end_Time|date('d/m/Y H:i:s') : '' }}</td>
+            </tr>
+            {# <tr>
+                <th>Estado</th>
+                <td>{{ task.state ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>State_request</th>
+                <td>{{ task.stateRequest }}</td>
+            </tr> #}
+            <tr>
+                <th>Tiempo extra</th>
+                <td>{{ task.extraTime ? task.extraTime|date('d/m/Y H:i:s') : '' }}</td>
+            </tr>
+
+            <tr>
+                <th>Tiempo dedicado</th>
+                <td>{{totaltime}} horas</td>
+            </tr>
+            
+            {% if task.jobs %}
+                <tr>
+                    <th class="text-right m-4" style="font-size:22pt">Trabajos</th>
+                    <td/>
+                </tr>
+            {% endif %}
+
+
+            {% for job in task.jobs %}
+                <tr>
+                    <th>{{ job.description }}</th>
+                    <td>{{ job.time }} minutos</td>
+                </tr> 
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="m-2 mt-5 btn btn-success font-weight-bold" href="{{ path('app_warehouse') }}"> <-- Volver al calendario</a>
+{% endblock %}

@@ -53,6 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Task::class)]
     private Collection $tasks;
 
+    #[ORM\Column]
+    private ?int $monthlytime = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -231,5 +234,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     public function __toString(){
         return $this->username;
+    }
+
+    public function getMonthlytime(): ?int
+    {
+        return $this->monthlytime;
+    }
+
+    public function setMonthlytime(int $monthlytime): self
+    {
+        $this->monthlytime = $monthlytime;
+
+        return $this;
     }
 }
