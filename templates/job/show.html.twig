@@ -22,7 +22,31 @@
             </tr>
         </tbody>
     </table> #}
-    
+    {% extends 'base.html.twig' %}
+
+{% block title %}Job{% endblock %}
+
+{% block body %}
+    <h1>Job</h1>
+
+    <form>
+        <div>
+            <label for="descriptionInput">Descripción:</label>
+            <input type="text" id="descriptionInput" name="descriptionInput">
+        </div>
+        <div>
+            <label for="timeInput">Tiempo:</label>
+            <input type="number" id="timeInput" name="timeInput">
+        </div>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <a href="{{ path('app_job_index') }}">Volver a la lista</a>
+
+    <a href="{{ path('app_job_edit', {'id': job.id}) }}">Editar</a>
+
+    {{ include('job/_delete_form.html.twig') }}
+{% endblock %}
 
 
     <form>
