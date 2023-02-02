@@ -43,20 +43,6 @@ class JobController extends AbstractController
     #[Route('/{id}', name: 'app_job_show', methods: ['GET'])]
     public function show(Job $job): Response
     {
-
-        $form = $this->createForm(JobType::class, $job);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $jobRepository->save($job, true);
-
-            return $this->redirectToRoute('app_job_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('job/edit.html.twig', [
-            'job' => $job,
-            'form' => $form,
-        ]);
         return $this->render('job/show.html.twig', [
             'job' => $job,
         ]);
