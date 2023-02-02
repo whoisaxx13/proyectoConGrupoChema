@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,14 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Event $Event = null;
+
+    #[ORM\OneToMany(mappedBy: 'task_id', targetEntity: Job::class)]
+    private Collection $jobs;
+
+    public function __construct()
+    {
+        $this->jobs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,5 +138,35 @@ class Task
       $res=0;
       $res= ($this->start_time->getTimestamp()-$this->end_time->getTimestamp()+$this->extra_time->getTimestamp())/(3600*24);
       return $res;
+    }
+
+    /**
+     * @return Collection<int, Job>
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs->add($job);
+            $job->setTaskId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->removeElement($job)) {
+            // set the owning side to null (unless already changed)
+            if ($job->getTaskId() === $this) {
+                $job->setTaskId(null);
+            }
+        }
+
+        return $this;
     }
 }
