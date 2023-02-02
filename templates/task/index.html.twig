@@ -1,16 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TaskController!{% endblock %}
-
-
+{% block title %}Task index{% endblock %}
 
 {% block body %}
+    <h1>Task index</h1>
 
-{% block javascripts %}
-<script src='js/index.global.min.js'></script>
-<script src='js/index.js' ></script>    
-{% endblock %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Start_time</th>
+                <th>End_time</th>
+                <th>State</th>
+                <th>State_request</th>
+                <th>Extra_time</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.startTime ? task.startTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ task.endTime ? task.endTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ task.state ? 'Yes' : 'No' }}</td>
+                <td>{{ task.stateRequest }}</td>
+                <td>{{ task.extraTime ? task.extraTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_task_show', {'id': task.id}) }}">show</a>
+                    <a href="{{ path('app_task_edit', {'id': task.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<div id="calendar"></div>
-
+    <a href="{{ path('app_task_new') }}">Create new</a>
 {% endblock %}

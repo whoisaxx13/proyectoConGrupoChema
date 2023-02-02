@@ -136,7 +136,8 @@ class Task
     public function getTotalTime(): int
     {
       $res=0;
-      $res= ($this->start_time->getTimestamp()-$this->end_time->getTimestamp()+$this->extra_time->getTimestamp())/(3600*24);
+      $res= ($this->end_time->getTimestamp()-$this->start_time->getTimestamp())/(3600);
+
       return $res;
     }
 
