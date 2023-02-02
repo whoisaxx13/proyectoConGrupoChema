@@ -6,6 +6,12 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .accept{
+        color:green;
+    }
+    .deny{
+        color:red;
+    }
 </style>
 
     <table class="table">
@@ -13,20 +19,27 @@
             <tr>
                 <th>Id</th>
                 <th>Username</th>
-                <th>Dni</th>
+                <th>State</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
+        {% for task in tasks %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.dni }}</td>
+                <td>{{ task.event.id }}</td>
+                <td>{{ task.user }}</td>
                 <td>
-                    <a href="{{ path('app_admin_user_report', {'id': user.id}) }}">see report</a>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                {% if task.state == 0 %}
+                    <p>❔</p>
+                    {% elseif task.state == 1 %}
+                        <p class="accept">✅</p>
+                    {% elseif task.state == 2 %}
+                        <p class="deny">⛔</p>
+                {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('app_user_show', {'id': task.id}) }}">Accept</a>
+                    <a href="{{ path('app_user_edit', {'id': task.id}) }}">Deny</a>
                 </td>
             </tr>
         {% else %}

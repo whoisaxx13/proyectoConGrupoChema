@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
+use App\Entity\Task;
+use App\Repository\TaskRepository;
+use App\Repository\EventRepository;
 
 
 #[Route('/admin')]
@@ -21,13 +24,13 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{dni}', name: 'app_admin_user_report', methods:["GET"])]
-    public function userReport(Request $request, UserRepository $userRepository, $dni): Response
+    #[Route('/user/{id}', name: 'app_admin_user_report', methods:["GET"])]
+    public function userReport(Request $request, UserRepository $userRepository, $id): Response
     {
         $filter=$request->get("month");
         $tasksFiltered=[];
 
-        $user = $userRepository->find($dni);
+        $user = $userRepository->find($id);
         $userTasks = $user->getTasks()->getValues();
 
         if($filter>0 && $filter<13){
@@ -57,10 +60,18 @@ class AdminController extends AbstractController
 
 
     #[Route('/event/{id}', name: 'app_admin_event_report', methods:["GET"])]
-    public function eventReport(Request $request, EventRepository $eventRepository, $dni): Response
+    public function eventReport(TaskRepository $taskRepository, EventRepository $eventRepository, $id): Response
     {
+           $event = $eventRepository->find($id);
+            $tasks = $event->getTasks();
+            $arrayTask = $taskRepository->findBy(
+                ["Event"=> $id],
+                 ["state"=>"ASC"]);
 
+        return $this->render('admin/event.html.twig', [
+            'tasks' => $arrayTask,
 
+        ]);
     }
     
 }
