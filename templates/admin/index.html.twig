@@ -8,18 +8,41 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+    <form class="row mx-2">
+
+        <select name="mes" class="form-control col-5">
+            {% for key, mes in meses %}
+                <option value="{{ key+1 }}"
+                        {% if key+1 == filter_month %}
+                            selected="selected"
+                        {% endif %}
+
+                >{{ mes }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="año" class="form-control col-5">
+            {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+
+        <input class="col-2 btn btn-info" type="submit" value="Filtrar">
+
+    </form>
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Dni</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Horas</th>
+            <th scope="col">Sueldo</th>
+            <th scope="col">Fecha</th>
+        </tr>
         </thead>
         <tbody>
-        {% for user in users %}
+        {% for trabajador in trabajadores %}
             <tr>
+<<<<<<< HEAD
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.dni }}</td>
@@ -32,6 +55,12 @@
         {% else %}
             <tr>
                 <td colspan="11">no records found</td>
+=======
+                <th scope="row">{{ trabajador.fullname }}</th>
+                <td>{{ trabajador.hours }}:{{ trabajador.minutes }}</td>
+                <td>-</td>
+                <td>{{ trabajador.date }}</td>
+>>>>>>> b82681709df34d3d606c3c86605bc1389ffb6130
             </tr>
         {% endfor %}
         </tbody>
