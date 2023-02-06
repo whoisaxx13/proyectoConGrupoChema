@@ -115,7 +115,7 @@ class AdminController extends AbstractController
             $tasks = $event->getTasks();
             $arrayTasks = $taskRepository->findBy(
                 ["Event"=> $id],
-                ["state"=>"DESC"]);
+                ["state"=>"ASC"]);
 
         return $this->render('admin/event.html.twig', [
             'tasks' => $arrayTasks,

@@ -29,11 +29,11 @@
                 <td>{{ task.event.id }}</td>
                 <td>{{ task.user }}</td>
                 <td>
-                {% if task.state == 0 %}
+                {% if task.state == 2 %}
                     <p>❔</p>
-                    {% elseif task.state == 1 %}
+                    {% elseif task.state == 0 %}
                         <p class="accept">✅</p>
-                    {% elseif task.state == 2 %}
+                    {% elseif task.state == 1 %}
                         <p class="deny">⛔</p>
                 {% endif %}
                 </td>

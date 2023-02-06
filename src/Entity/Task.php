@@ -20,8 +20,6 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end_time = null;
 
-
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $state_request = null;
 
@@ -35,7 +33,7 @@ class Task
     private ?Event $Event = null;
 
     #[ORM\Column]
-    private ?int $state = null;
+    private ?int $state = 2;
 
     public function getId(): ?int
     {
