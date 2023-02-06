@@ -49,10 +49,20 @@ class TaskRepository extends ServiceEntityRepository
            ->andWhere("t.start_time LIKE :val")
            ->setParameter('val', $tot)
            ->orderBy('t.id', 'ASC')
-           ->select('t.id as id')
+           ->select('t.id as id , t.start_time as st , t.end_time as et, t.extra_time as ext')
            ->getQuery()
            ->getResult()
        ;
+   }
+   public function getHorasRealizadas($arr){
+        $salida = [];
+    foreach($arr as $task) {
+            $time = $task['st']->diff($task['et']);
+            $salida = [$task['id'] , $time->days*24+$time->h+($task['ext']->getTimestamp())/(3600)];
+            
+            var_dump(($task['ext']->getTimestamp())/(3600));
+        }
+        // return $salida;  
    }
 
 //    /**
