@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin View{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .accept{
+        color:green;
+    }
+    .deny{
+        color:red;
+    }
+</style>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>State</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.event.id }}</td>
+                <td>{{ task.user }}</td>
+                <td>
+                {% if task.state == 0 %}
+                    <p>❔</p>
+                    {% elseif task.state == 1 %}
+                        <p class="accept">✅</p>
+                    {% elseif task.state == 2 %}
+                        <p class="deny">⛔</p>
+                {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('app_user_show', {'id': task.id}) }}">Accept</a>
+                    <a href="{{ path('app_user_edit', {'id': task.id}) }}">Deny</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
