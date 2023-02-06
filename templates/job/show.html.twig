@@ -24,17 +24,16 @@
     {% block body %}
     <h1 class="mb-auto text-center font-italic Italica">Trabajo</h1>
     <form>
-        <div class="mb-1 form-group">
-            <label for="descriptionInput" class="text-secondary">Descripción:</label>
-            <input type="text" id="descriptionInput"   class="form-control" name="descriptionInput">
+        <div class="mb-1 form-group ">
+            <label for="descriptionInput" class="text-secondary font-italic Italica">Descripción:</label>
+            <input type="text" id="descriptionInput"   class="form-control " name="descriptionInput">
         </div>
         <div>
-            <label for="timeInput" class="text-secondary">Tiempo:</label>
-            <input type="number"  id="timeInput" class="mb-2  form-control" name="timeInput">
+            <label for="timeInput" class="text-secondary font-italic Italica">Tiempo:</label>
+            <input type="number"  id="timeInput" class="mb-2  form-control " name="timeInput">
         </div>
-        <button type="submit" class="mb-2  btn btn-primary">Enviar</button>
-         <a href="{{ path('app_job_index') }}"  class="mb-2 btn btn-secondary" >Volver a la lista</a>
-            {{ include('job/_delete_form.html.twig') }}
+        <button type="submit" class="m-3  btn btn-primary btn-lg active font-italic Italica">Enviar</button>
+         <a href="{{ path('app_job_index') }}"  class="m-3 btn btn-secondary btn-lg active font-italic Italica" >Salir</a>
     </form>
     {# <a href="{{ path('app_job_edit', {'id': job.id}) }} class="btn btn-warning" ">Editar</a> #}
 {% endblock %}
