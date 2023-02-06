@@ -21,8 +21,8 @@
         {% for task in tasks %}
             <tr>
                 <td>{{ task.id }}</td>
-                <td>{{ task.startTime ? task.startTime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ task.endTime ? task.endTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ task.startTime ? task.start_Time|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ task.endTime ? task.end_Time|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ task.state ? 'Yes' : 'No' }}</td>
                 <td>{{ task.stateRequest }}</td>
                 <td>{{ task.extraTime ? task.extraTime|date('Y-m-d H:i:s') : '' }}</td>

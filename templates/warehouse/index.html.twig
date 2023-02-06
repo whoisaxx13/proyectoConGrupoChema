@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TaskController!{% endblock %}
+{% block title %}Calendario de Almacén{% endblock %}
 
 
 
@@ -19,6 +19,7 @@
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
+      locale: 'es',
       events: [
         {% for tarea in tareas %}
             {
@@ -34,8 +35,7 @@
     calendar.render();
 
     var $title = document.querySelector('#calendar div:nth-of-type(2)');
-    $title.innerHTML = '<h2>Horas mensuales: {{ app.user.monthlytime }} Horas restantes: {{ app.user.monthlytime }}</h2>';
-    
+    $title.innerHTML = '<h2>Horas mensuales: {{ app.user.monthlytime }} | Horas restantes: {{ app.user.monthlytime }}</h2>';
   });
 </script>
 {% endblock %}
