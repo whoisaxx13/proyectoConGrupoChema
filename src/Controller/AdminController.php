@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
 use App\Repository\TaskRepository;
+use App\Repository\EventRepository;
 use App\Entity\Task;
 
 
@@ -112,13 +113,12 @@ class AdminController extends AbstractController
     {
            $event = $eventRepository->find($id);
             $tasks = $event->getTasks();
-            $arrayTask = $taskRepository->findBy(
+            $arrayTasks = $taskRepository->findBy(
                 ["Event"=> $id],
-                 ["state"=>"ASC"]);
+                ["state"=>"DESC"]);
 
         return $this->render('admin/event.html.twig', [
-            'tasks' => $arrayTask,
-
+            'tasks' => $arrayTasks,
         ]);
     }
     

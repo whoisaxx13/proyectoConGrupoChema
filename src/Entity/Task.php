@@ -20,8 +20,7 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end_time = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $state = null;
+
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $state_request = null;
@@ -34,6 +33,9 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Event $Event = null;
+
+    #[ORM\Column]
+    private ?int $state = null;
 
     public function getId(): ?int
     {
@@ -60,18 +62,6 @@ class Task
     public function setEndTime(?\DateTimeInterface $end_time): self
     {
         $this->end_time = $end_time;
-
-        return $this;
-    }
-
-    public function isState(): ?bool
-    {
-        return $this->state;
-    }
-
-    public function setState(?bool $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
@@ -120,6 +110,18 @@ class Task
     public function setEvent(?Event $Event): self
     {
         $this->Event = $Event;
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }
