@@ -7,17 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\UserRepository;
-
-<<<<<<< HEAD
-#[Route('/admin')]
-class AdminController extends AbstractController
-{
-    #[Route('/', name: 'app_admin', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
-    {
-
-=======
 
 #[Route('/admin')]
 class AdminController extends AbstractController
@@ -29,7 +18,6 @@ class AdminController extends AbstractController
 
         $filter_month = $request->get('mes');
         $filter_year = $request->get('año');
->>>>>>> administration
         $users = $userRepository->findAll();
 
         $user_logs = [];
@@ -39,17 +27,6 @@ class AdminController extends AbstractController
 
             $hours = 0;
             $minutes = 0;
-
-<<<<<<< HEAD
-            foreach ($tasks as $task){
-                $minutes += ($task->getStartTime()->diff($task->getEndTime())->h * 60);
-                $minutes += $task->getStartTime()->diff($task->getEndTime())->i;
-
-                $hours = $hours + floor($minutes / 60);
-                $minutes = $minutes +$minutes % 60;
-            }
-
-=======
 
             foreach ($tasks as $task){
 
@@ -70,30 +47,15 @@ class AdminController extends AbstractController
 
             $hours += floor($minutes / 60);
             $minutes = $minutes % 60;
->>>>>>> administration
 
             $objectUser = new \stdClass();
             $objectUser->id = $user->getId();
             $objectUser->fullname = $user->getFullName();
             $objectUser->hours = $hours;
-<<<<<<< HEAD
-            $objectUser->minutes = $minutes;
-=======
-            $objectUser->minutes = $minutes < 10 ? "0$minutes" : $minutes;
-            $objectUser->date = "$filter_month/$filter_year";
->>>>>>> administration
 
             $user_logs[] = $objectUser;
-
         }
 
-<<<<<<< HEAD
-
-
-
-        return $this->render('admin/index.html.twig', [
-            'trabajadores' => $user_logs,
-=======
         $years = [];
 
         $months_tmp = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -108,7 +70,6 @@ class AdminController extends AbstractController
             'years' => $years,
             'meses' => $months_tmp,
             'filter_month' => $filter_month
->>>>>>> administration
         ]);
     }
 
@@ -144,14 +105,6 @@ class AdminController extends AbstractController
             'tasks' => $tasksFiltered,
             'startTime' => $arrStart,
         ]);
-    }
-
-
-    #[Route('/event/{id}', name: 'app_admin_event_report', methods:["GET"])]
-    public function eventReport(Request $request, EventRepository $eventRepository, $dni): Response
-    {
-
-
     }
     
 }
