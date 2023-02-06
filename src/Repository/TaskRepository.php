@@ -38,6 +38,23 @@ class TaskRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByMonth(int $month, int $userid): Array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM task
+            WHERE MONTH(start_time) = :month && user_id = :userid
+            ORDER BY start_time ASC
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['month' => $month, 'userid' => $userid]);
+
+         // returns an array of arrays (raw data set)
+         return $resultSet->fetchAllAssociative();
+    }
+
 
 //    /**
 //     * @return Task[] Returns an array of Task objects

@@ -24,9 +24,9 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.dni }}</td>
                 <td>
-                    <a href="{{ path('app_admin_show', {'dni': user.id}) }}">see report</a>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_user_report', {'id': user.id}) }}">user report</a>
                 </td>
             </tr>
         {% else %}

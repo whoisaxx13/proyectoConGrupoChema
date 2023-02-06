@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
+use App\Repository\TaskRepository;
+use App\Entity\Task;
 
 
 #[Route('/admin')]
@@ -21,37 +23,29 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{dni}', name: 'app_admin_user_report', methods:["GET"])]
-    public function userReport(Request $request, UserRepository $userRepository, $dni): Response
+    #[Route('/user/{id}', name: 'app_admin_user_report', methods:["GET"])]
+    public function userReport(Request $request, UserRepository $userRepository, TaskRepository $taskRepository, $id): Response
     {
+        dd($this->isGranted("ROLE_PRUEBA"));
         $filter=$request->get("month");
-        $tasksFiltered=[];
-
-        $user = $userRepository->find($dni);
-        $userTasks = $user->getTasks()->getValues();
+        $tasks=[];
 
         if($filter>0 && $filter<13){
-            if($filter>0 && $filter<10){
-                $filter="0".$filter;
-            }
-            for ($i=0; $i < count($userTasks); $i++) { 
-                if($filter===$userTasks[$i]->getStartTime()->format("m")){
-                    $tasksFiltered[]=$userTasks[$i];
-                }
-            }
-        } else {
-            $tasksFiltered = $userTasks;
-        }
-        $arrStart = [];
-        for ($i=0; $i <count($tasksFiltered) ; $i++) { 
-            $arrStart[]= $tasksFiltered[$i]->getStartTime();
-        }
-        array_multisort($arrStart, SORT_ASC, $tasksFiltered);
+            $tasks = $taskRepository->findByMonth( $filter, $this->getUser()->getId() );
 
+            //Conversion to Twig format.
+            array_walk($tasks, function (& $item){
+                $item['starttime'] = $item['start_time'];
+                unset($item['start_time']);
+                $item['endtime'] = $item['end_time'];
+                unset($item['end_time']);
+            });
+
+        } else {
+            $tasks = $this->getUser()->getTasks();
+        }
         return $this->render('admin/show.html.twig', [
-            'user' => $user,
-            'tasks' => $tasksFiltered,
-            'startTime' => $arrStart,
+            'tasks' => $tasks,
         ]);
     }
 

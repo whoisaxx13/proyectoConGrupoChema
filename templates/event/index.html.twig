@@ -15,14 +15,16 @@
                 <th>LinkInformation</th>
                 <th>EventCategory</th>
                 <th>LinkForm</th>
-                <th>Workers_number</th>
+                <th>Total Workers</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for event in events %}
             <tr>
                 <td>{{ event.name }}</td>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d') : '' }}</td>
+                <td>{{ event.startDate ? event.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ event.startDate ? event.endDate|date('Y-m-d') : '' }}</td>
                 <td>{{ event.schedule }}</td>
                 <td>{{ event.linkInformation }}</td>
                 <td>{{ event.eventCategory }}</td>
