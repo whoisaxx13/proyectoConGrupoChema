@@ -4,6 +4,11 @@
 {% endblock %}
 
 {% block body %}
+	<div class="m-0 p-0">
+		<a class="" href="{{ path('app_task_show') }}">📅 Volver</a>
+		{# Esto vuelve a la vista de la tarea su tenemos que pasar a esta vista la task de este trabajo #}
+	</div>
+
 	<h1 class="mb-auto text-center font-italic Italica mt-5">Trabajo</h1>
 	<div class="container mt-5">
 		<div class="row d-flex justify-content-center">
@@ -16,5 +21,6 @@
 			</div>
 		</div>
 	</div>
-	<a href="{{ path('app_job_index') }}">back to list</a>
+
+
 {% endblock %}
