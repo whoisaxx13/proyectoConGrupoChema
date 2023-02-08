@@ -87,37 +87,35 @@ class AdminController extends AbstractController
     #[Route('/user/{id}', name: 'app_admin_user_report', methods: ["GET"])]
     public function userReport(Request $request, UserRepository $userRepository, TaskRepository $taskRepository, $id): Response
     {
-<<<<<<< Updated upstream
         $month=null;
         $tasks=[];
 
         if($request->get("month")>0 && $request->get("month")<13){
             $month = $request->get("month");
             $tasks = $taskRepository->findByMonth($request->get("month"), $this->getUser()->getId() );
-=======
-        dd($this->isGranted("ROLE_PRUEBA"));
-        $filter = $request->get("month");
-        $tasks = [];
+            $filter = $request->get("month");
+            $tasks = [];
 
-        if ($filter > 0 && $filter < 13) {
-            $tasks = $taskRepository->findByMonth($filter, $this->getUser()->getId());
->>>>>>> Stashed changes
+            if ($filter > 0 && $filter < 13) {
+                $tasks = $taskRepository->findByMonth($filter, $this->getUser()->getId());
 
-            //Conversion to Twig format.
-            array_walk($tasks, function (&$item) {
-                $item['starttime'] = $item['start_time'];
-                unset($item['start_time']);
-                $item['endtime'] = $item['end_time'];
-                unset($item['end_time']);
-            });
+                //Conversion to Twig format.
+                array_walk($tasks, function (&$item) {
+                    $item['starttime'] = $item['start_time'];
+                    unset($item['start_time']);
+                    $item['endtime'] = $item['end_time'];
+                    unset($item['end_time']);
+                });
 
-        } else {
-            $tasks = $this->getUser()->getTasks();
+            } else {
+                $tasks = $this->getUser()->getTasks();
+            }
+
+            return $this->render('admin/show.html.twig', [
+                'tasks' => $tasks,
+                'filter' => $month,
+            ]);
         }
-        return $this->render('admin/show.html.twig', [
-            'tasks' => $tasks,
-            'filter' => $month,
-        ]);
     }
 
 
