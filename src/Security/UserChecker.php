@@ -6,6 +6,8 @@ use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+
 
 class UserChecker implements UserCheckerInterface
 {
@@ -23,8 +25,8 @@ class UserChecker implements UserCheckerInterface
         }
 
         // user company is not active -> throw error
-        if (!$user->getCompany()->isActive()) {
-            throw new AccountExpiredException('Company not Active');
+        if (!$user->getCompany()->isActive() && !in_array("ROLE_SUPER_ADMIN", $user->getRoles())) {
+            throw new CustomUserMessageAccountStatusException('Company is not active');  
         }
     }
 }

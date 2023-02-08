@@ -10,8 +10,9 @@ use App\Repository\UserRepository;
 use App\Repository\TaskRepository;
 use App\Repository\EventRepository;
 use App\Entity\Task;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
@@ -84,12 +85,12 @@ class AdminController extends AbstractController
     #[Route('/user/{id}', name: 'app_admin_user_report', methods:["GET"])]
     public function userReport(Request $request, UserRepository $userRepository, TaskRepository $taskRepository, $id): Response
     {
-        dd($this->isGranted("ROLE_PRUEBA"));
-        $filter=$request->get("month");
+        $month=null;
         $tasks=[];
 
-        if($filter>0 && $filter<13){
-            $tasks = $taskRepository->findByMonth( $filter, $this->getUser()->getId() );
+        if($request->get("month")>0 && $request->get("month")<13){
+            $month = $request->get("month");
+            $tasks = $taskRepository->findByMonth($request->get("month"), $this->getUser()->getId() );
 
             //Conversion to Twig format.
             array_walk($tasks, function (& $item){
@@ -104,6 +105,7 @@ class AdminController extends AbstractController
         }
         return $this->render('admin/show.html.twig', [
             'tasks' => $tasks,
+            'filter' => $month,
         ]);
     }
 

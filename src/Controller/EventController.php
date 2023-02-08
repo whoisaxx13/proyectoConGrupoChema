@@ -10,16 +10,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
+#[IsGranted('ROLE_USER')]
 #[Route('/event')]
 class EventController extends AbstractController
 {
     #[Route('/', name: 'app_event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository): Response
     {
+        if($this->isGranted('ROLE_SUPER_ADMIN')){
+            $events = $eventRepository->findAll();
+        } else {
+            $events =  $eventRepository->findBy(
+                ['company' => $this->getUser()->getCompany()->getId()]
+            );
+        }
         return $this->render('event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $events,
         ]);
     }
 

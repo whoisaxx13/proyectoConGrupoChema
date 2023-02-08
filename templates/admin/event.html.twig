@@ -17,18 +17,16 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>State</th>
-                <th>actions</th>
+                <th class="text-center">Username</th>
+                <th class="text-center">State</th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for task in tasks %}
             <tr>
-                <td>{{ task.event.id }}</td>
-                <td>{{ task.user }}</td>
-                <td>
+                <td class="text-center">{{ task.user }}</td>
+                <td class="text-center">
                 {% if task.state == 2 %}
                     <p>❔</p>
                     {% elseif task.state == 0 %}
@@ -37,7 +35,7 @@
                         <p class="deny">⛔</p>
                 {% endif %}
                 </td>
-                <td>
+                <td class="text-center">
                     <a href="{{ path('app_user_show', {'id': task.id}) }}">Accept</a>
                     <a href="{{ path('app_user_edit', {'id': task.id}) }}">Deny</a>
                 </td>
