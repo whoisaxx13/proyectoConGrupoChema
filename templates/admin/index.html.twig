@@ -42,12 +42,6 @@
         <tbody>
         {% for trabajador in trabajadores %}
             <tr>
-                <td>{{ app.user.id }}</td>
-                <td>{{ app.user.username }}</td>
-                <td>{{ app.user.dni }}</td>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
                 <th scope="row">{{ trabajador.fullname }}</th>
                 <td>{{ trabajador.hours }}:{{ trabajador.minutes }}</td>
                 <td>-</td>
