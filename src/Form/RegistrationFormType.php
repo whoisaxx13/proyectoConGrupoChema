@@ -48,7 +48,6 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('company')
         ;
     }
 
