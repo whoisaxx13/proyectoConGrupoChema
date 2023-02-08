@@ -53,6 +53,8 @@ class EventController extends AbstractController
     #[Route('/{id}', name: 'app_event_show', methods: ['GET'])]
     public function show(Event $event): Response
     {
+        SecurityController::checkCompany($this, $this->getUser(),$event);
+
         return $this->render('event/show.html.twig', [
             'event' => $event,
         ]);
@@ -61,6 +63,8 @@ class EventController extends AbstractController
     #[Route('/{id}/edit', name: 'app_event_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EventRepository $eventRepository): Response
     {
+        SecurityController::checkCompany($this, $this->getUser(),$event);
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
@@ -79,6 +83,8 @@ class EventController extends AbstractController
     #[Route('/{id}', name: 'app_event_delete', methods: ['POST'])]
     public function delete(Request $request, Event $event, EventRepository $eventRepository): Response
     {
+        SecurityController::checkCompany($this, $this->getUser(),$event);
+
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
             $eventRepository->remove($event, true);
         }
