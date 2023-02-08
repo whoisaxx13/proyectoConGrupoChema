@@ -38,8 +38,8 @@ class Task
     #[ORM\OneToMany(mappedBy: 'task_id', targetEntity: Job::class)]
     private Collection $jobs;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $extra_time = null;
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $type = null;
 
     public function __construct()
     {
@@ -51,7 +51,7 @@ class Task
         return $this->id;
     }
 
-    public function getStart_Time(): ?\DateTimeInterface
+    public function getStartTime(): ?\DateTimeInterface
     {
         return $this->start_time;
     }
@@ -63,7 +63,7 @@ class Task
         return $this;
     }
 
-    public function getEnd_Time(): ?\DateTimeInterface
+    public function getEndTime(): ?\DateTimeInterface
     {
         return $this->end_time;
     }
@@ -126,15 +126,15 @@ class Task
     }
     public function getTotalTime(): int
     {
-      $res=0;
-      $res= ($this->end_time->getTimestamp()-$this->start_time->getTimestamp()+$this->extra_time)/(3600);
+    $res=0;
+    $res= ($this->end_time->getTimestamp()-$this->start_time->getTimestamp()+$this->extra_time)/(3600);
 
-      return $res;
+    return $res;
     }
 
     /**
-     * @return Collection<int, Job>
-     */
+    * @return Collection<int, Job>
+    */
     public function getJobs(): Collection
     {
         return $this->jobs;
@@ -161,15 +161,18 @@ class Task
 
         return $this;
     }
-
-    public function getExtraTime(): ?int
-    {
-        return $this->extra_time;
+    public function __toString(): string {
+        return $this->id;
     }
 
-    public function setExtraTime(?int $extra_time): self
+    public function getType(): ?int
     {
-        $this->extra_time = $extra_time;
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

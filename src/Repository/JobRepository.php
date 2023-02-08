@@ -24,7 +24,7 @@ class JobRepository extends ServiceEntityRepository
     public function save(Job $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
-
+        
         if ($flush) {
             $this->getEntityManager()->flush();
         }
