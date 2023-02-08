@@ -35,7 +35,7 @@ class AdminController extends AbstractController
 
         $filter = "$filter_year-" . ((int)$filter_month < 10 ? "0$filter_month" : $filter_month);
 
-        $users = $userRepository->findAll();
+        $users = $userRepository->findByCompany($this->getUser()->getCompany());
 
         $user_logs = [];
         foreach ($users as $user) {
