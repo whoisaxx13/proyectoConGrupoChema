@@ -58,11 +58,11 @@ class TaskRepository extends ServiceEntityRepository
         $salida = [];
     foreach($arr as $task) {
             $time = $task['st']->diff($task['et']);
-            $salida = [$task['id'] , $time->days*24+$time->h+($task['ext']->getTimestamp())/(3600)];
+            $salida = [$task['id'], $time->days*24+$time->h+($task['ext']*60)/(3600)];
             
-            var_dump(($task['ext']->getTimestamp())/(3600));
+            var_dump($salida);
         }
-        // return $salida;  
+        return $salida;  
    }
 
 //    /**

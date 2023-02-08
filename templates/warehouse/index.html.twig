@@ -35,7 +35,7 @@
     calendar.render();
 
     var $title = document.querySelector('#calendar div:nth-of-type(2)');
-    $title.innerHTML = '<h2>Horas mensuales: {{ app.user.monthlytime }} | Horas restantes: {{ app.user.monthlytime }}</h2>';
+    $title.innerHTML = '<a class="h2" href="{{path("app_monthly")}}">Horas mensuales: {{ app.user.monthlytime }} | Horas restantes: {{ app.user.monthlytime }}</a>';
   });
 </script>
 {% endblock %}
