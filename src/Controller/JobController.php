@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Job;
 use App\Form\JobType;
 use App\Repository\JobRepository;
+use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,12 +23,12 @@ class JobController extends AbstractController
     }
 
     #[Route('/new', name: 'app_job_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, JobRepository $jobRepository): Response
+    public function new(Request $request, JobRepository $jobRepository, TaskRepository $taskRepository): Response
     {
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
-
+        $job->setTaskId($taskRepository->findOneById(1));
         if ($form->isSubmitted() && $form->isValid()) {
             $jobRepository->save($job, true);
 

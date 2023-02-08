@@ -6,6 +6,7 @@ use App\Entity\Task;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class TaskType extends AbstractType
 {
@@ -19,6 +20,9 @@ class TaskType extends AbstractType
             ->add('extra_time')
             ->add('User')
             ->add('Event')
+            // ->add('warehouse', CheckboxType::class, [
+            //     'label' => 'Soy parte de los trabajadores del almacen',
+            // ])
         ;
     }
 

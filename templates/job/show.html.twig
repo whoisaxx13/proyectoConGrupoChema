@@ -1,40 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Job{% endblock %}
-
-
-    {# <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ job.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ job.description }}</td>
-            </tr>
-            <tr>
-                <th>Time</th>
-                <td>{{ job.time }}</td>
-            </tr>
-        </tbody>
-    </table> #}
-
-
-    {% block body %}
-    <h1 class="mb-auto text-center font-italic Italica">Trabajo</h1>
-    <form>
-        <div class="mb-1 form-group ">
-            <label for="descriptionInput" class="text-secondary font-italic Italica">Descripción:</label>
-            <input type="text" id="descriptionInput"   class="form-control " name="descriptionInput">
-        </div>
-        <div>
-            <label for="timeInput" class="text-secondary font-italic Italica">Tiempo:</label>
-            <input type="number"  id="timeInput" class="mb-2  form-control " name="timeInput">
-        </div>
-        <button type="submit" class="m-3  btn btn-primary btn-lg active font-italic Italica">Enviar</button>
-         <a href="{{ path('app_job_index') }}"  class="m-3 btn btn-secondary btn-lg active font-italic Italica" >Salir</a>
-    </form>
-    {# <a href="{{ path('app_job_edit', {'id': job.id}) }} class="btn btn-warning" ">Editar</a> #}
+{% block title %}Job
 {% endblock %}
+{% block body %}
 
+	<h1 class="mb-auto text-center font-italic Italica mt-5">Trabajo</h1>
+	<div class="container mt-5">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-6">
+				<div class="card shadow p-3 mb-5 bg-white rounded">
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label for="descriptionInput" class="text-secondary font-italic Italica">Descripción:</label>
+								<input type="text" id="descriptionInput" class="form-control " name="descriptionInput">
+							</div>
+							<div class="form-group">
+								<label for="timeInput" class="text-secondary font-italic Italica">Tiempo:</label>
+								<input type="number" id="timeInput" class="form-control " name="timeInput">
+							</div>
+							<div class="form-group d-flex justify-content-between">
+								<button type="submit" class="m-3 btn btn-primary btn-lg active font-italic Italica">Enviar</button>
+								<a href="{{ path('app_job_index') }}" class="m-3 btn btn-secondary btn-lg active font-italic Italica">Salir</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{# <a href="{{ path('app_job_edit', {'id': job.id}) }} class="btn btn-warning" ">Editar</a> #}
+{% endblock %}

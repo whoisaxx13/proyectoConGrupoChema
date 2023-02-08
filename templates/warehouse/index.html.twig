@@ -25,8 +25,8 @@
             {
                 id: {{tarea.id}},
                 title: "{{tarea.event.name}}",
-                start: '{{tarea.start_time  | date('Y-m-d')}}',
-                end: '{{ tarea.end_time|date_modify("+1 day")|date("Y-m-d") }}',
+                start: '{{tarea.starttime  | date('Y-m-d')}}',
+                end: '{{ tarea.endtime|date_modify("+1 day")|date("Y-m-d") }}',
                 url: '/task/{{tarea.id}}'
             }
         {% endfor %}

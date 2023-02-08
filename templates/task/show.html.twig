@@ -15,11 +15,11 @@
             </tr>
             <tr>
                 <th>Fecha de inicio</th>
-                <td>{{ task.start_Time ? task.start_Time|date('d/m/Y H:i:s') : '' }}</td>
+                <td>{{ task.startTime ? task.startTime|date('d/m/Y H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Fecha de finalización</th>
-                <td>{{ task.end_Time ? task.end_Time|date('d/m/Y H:i:s') : '' }}</td>
+                <td>{{ task.endTime ? task.endTime|date('d/m/Y H:i:s') : '' }}</td>
             </tr>
             {# <tr>
                 <th>Estado</th>
@@ -39,20 +39,25 @@
                 <td>{{totaltime}} horas</td>
             </tr>
             
-            {% if task.jobs %}
-                <tr>
-                    <th class="text-right" style="font-size:22pt">Trabajos</th>
-                    <td/>
-                </tr>
-            {% endif %}
+            {% if task.type == 1 %}
+            
+            <tr>
+                <th class="text-right m-4" style="font-size:22pt">Trabajos</th>
+                <td/>
+            </tr>
 
+            <tr>
+                <td> <a href='/job/new'><button>Crear Trabajo</button></a> </td>
+            </tr>
 
             {% for job in task.jobs %}
                 <tr>
                     <th>{{ job.description }}</th>
                     <td>{{ job.time }} minutos</td>
-                </tr> 
+                </tr>
             {% endfor %}
+            {% endif %}
+            
         </tbody>
     </table>
 
