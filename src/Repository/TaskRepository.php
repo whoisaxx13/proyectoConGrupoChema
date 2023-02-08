@@ -55,12 +55,10 @@ class TaskRepository extends ServiceEntityRepository
        ;
    }
    public function getHorasRealizadas($arr){
-        $salida = [];
+    $salida = [];
     foreach($arr as $task) {
             $time = $task['st']->diff($task['et']);
             $salida = [$task['id'], $time->days*24+$time->h+($task['ext']*60)/(3600)];
-            
-            var_dump($salida);
         }
         return $salida;  
    }

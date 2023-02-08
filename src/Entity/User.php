@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $monthlytime = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $remaininghours = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -244,6 +247,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMonthlytime(int $monthlytime): self
     {
         $this->monthlytime = $monthlytime;
+
+        return $this;
+    }
+
+    public function getRemaininghours(): ?int
+    {
+        return $this->remaininghours;
+    }
+
+    public function setRemaininghours(?int $remaininghours): self
+    {
+        $this->remaininghours = $remaininghours;
 
         return $this;
     }
