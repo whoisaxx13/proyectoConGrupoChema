@@ -41,6 +41,9 @@ class Task
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $extra_time = null;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -173,6 +176,18 @@ class Task
     public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getExtraTime(): ?int
+    {
+        return $this->extra_time;
+    }
+
+    public function setExtraTime(?int $extra_time): self
+    {
+        $this->extra_time = $extra_time;
 
         return $this;
     }

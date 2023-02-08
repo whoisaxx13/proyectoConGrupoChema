@@ -12,6 +12,7 @@ class MonthlyController extends AbstractController
     #[Route('/monthly', name: 'app_monthly')]
     public function index(TaskRepository $taskRepository): Response
     {
+        
         return $this->render('monthly/index.html.twig', [
             'controller_name' => 'MonthlyController',
             'fecha' => date('m-Y'),
