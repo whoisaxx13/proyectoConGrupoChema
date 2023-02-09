@@ -11,12 +11,12 @@
 <div class="example-wrapper">
     <h1>{{fecha}}</h1>
     <h1>Horas mensuales: {{app.user.monthlytime}} h</h1>
-    <h1>Horas que faltan: {{app.user.monthlytime-tareas[1]}} h</h1>
+    <h1>Horas que faltan: {{app.user.remainingHours}} h</h1>
     {% if tareasAtrasadas %}
         {% if tareasAtrasadas <= 0 %}
             <h1>No tienes tareas arrastradas.</h1>
         {% else %}
-            <h2>Te faltan horas del mes pasado -> Horas que faltan en total: {{app.user.monthlytime-tareas[1]+app.user.monthlytime-tareasAtrasadas[1]}} h</h2>
+            <h2>Te faltan horas del mes pasado </h2>
         {% endif %}
     {% else %}
         <h1>No realizaste tareas el mes pasado.</h1>

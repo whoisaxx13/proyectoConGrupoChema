@@ -22,4 +22,14 @@ class WarehouseController extends AbstractController
             
         ]);
     }
+    #[Route('/warehouse/vacations', name: 'app_warehouse_vacation')]
+    public function index(TaskRepository $taskRepository, EventRepository $eventRepository): Response
+    {
+        
+        return $this->render('warehouse/vacation.html.twig', [
+            'controller_name' => 'WarehouseController',
+            
+            
+        ]);
+    }
 }
