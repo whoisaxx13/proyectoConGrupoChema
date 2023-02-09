@@ -32,6 +32,7 @@ class UserType extends AbstractType
             ->add('phoneNumber')
             ->add('dni')
             ->add('regDate')
+            ->add('naf')
         ;
     }
 

@@ -20,7 +20,10 @@
                 <td>{{ company.title }}</td>
                 <td>{{ company.nif }}</td>
                 <td>{{ company.ccc}}</td>
-                <td><a href="{{path('app_company_show', {'nif':company.nif})}}">show</a></td>
+                <td>
+                <a href="{{path('app_company_show', {'nif':company.nif})}}">show</a>
+                <a href="{{path('app_company_edit', {'id':company.id})}}">edit</a>
+                </td>
             </tr>
         {% else %}
             <tr>

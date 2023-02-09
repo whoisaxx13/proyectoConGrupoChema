@@ -16,6 +16,7 @@
                     <th>Address</th>
                     <th>PhoneNumber</th>
                     <th>Dni</th>
+                    <th>Naf</th>
                     <th>RegDate</th>
                     <th>actions</th>
                 </tr>
@@ -31,6 +32,7 @@
                     <td>{{ user.address }}</td>
                     <td>{{ user.phoneNumber }}</td>
                     <td>{{ user.dni }}</td>
+                    <td>{{ user.naf }}</td>
                     <td>{{ user.regDate ? user.regDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
                         <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
