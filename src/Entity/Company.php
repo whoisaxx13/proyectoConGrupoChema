@@ -30,6 +30,9 @@ class Company
     #[ORM\Column]
     private ?bool $active = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $ccc = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -140,5 +143,17 @@ class Company
     public function __toString(): String
     {
         return $this->nif;
+    }
+
+    public function getCcc(): ?string
+    {
+        return $this->ccc;
+    }
+
+    public function setCcc(string $ccc): self
+    {
+        $this->ccc = $ccc;
+
+        return $this;
     }
 }

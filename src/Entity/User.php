@@ -57,6 +57,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $naf = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -249,4 +252,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getNaf(): ?string
+    {
+        return $this->naf;
+    }
+
+    public function setNaf(?string $naf): self
+    {
+        $this->naf = $naf;
+
+        return $this;
+    }
+
+
 }
