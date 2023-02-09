@@ -28,7 +28,7 @@ class Company
     private Collection $events;
 
     #[ORM\Column]
-    private ?bool $active = null;
+    private ?bool $active = true;
 
     #[ORM\Column(length: 255)]
     private ?string $ccc = null;

@@ -30,7 +30,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            
             $user->setRegDate(new \DateTime());
 
             $entityManager->persist($user);
