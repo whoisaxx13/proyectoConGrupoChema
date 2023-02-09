@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
           title: 'my event',
           start: '2023-02-02'
         }
+        
       ]
     });
     calendar.render();

@@ -5,7 +5,7 @@
 
 {% block body %}
 	<div class="m-0 p-0">
-		<a class="" href="{{ path('app_task_show') }}">📅 Volver</a>
+		<a class="" href="{{ path('app_task_show', {'id': job.taskid.id}) }}">📅 Volver</a>
 		{# Esto vuelve a la vista de la tarea su tenemos que pasar a esta vista la task de este trabajo #}
 	</div>
 

@@ -28,7 +28,9 @@ class JobController extends AbstractController
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
+
         $job->setTaskId($taskRepository->findOneById(1));
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $jobRepository->save($job, true);
 
