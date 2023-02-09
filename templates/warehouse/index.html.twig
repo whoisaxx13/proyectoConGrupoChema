@@ -27,10 +27,19 @@
                 title: "{{tarea.event.name}}",
                 start: '{{tarea.starttime  | date('Y-m-d')}}',
                 end: '{{ tarea.endtime|date_modify("+1 day")|date("Y-m-d") }}',
-                url: '/task/{{tarea.id}}'
+                url: '/task/{{tarea.id}}',
+                textColor: 'black',
+                {% if tarea.type == 0 %}
+                  backgroundColor: 'rgb(22, 208, 84)',
+                {% elseif tarea.type == 1 %}
+                  backgroundColor: 'rgb(22, 208, 204)',
+                {% else %}
+                  backgroundColor: 'rgb(208, 190, 22)',
+                {% endif %}
             }
         {% endfor %}
       ]
+
     });
     calendar.render();
 
