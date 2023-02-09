@@ -5,7 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="{{ font_awesome }}" crossorigin="anonymous"></script>        
+        <script src="{{ font_awesome }}" crossorigin="anonymous"></script>
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -26,16 +26,16 @@
             </header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <ul class="navbar-nav container-fluid me-auto justify-content-around">
-                    <li class="nav-item"><a class="nav-link active" href="{{path("app_task")}}">tasks</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{path("app_user_index")}}">users</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{path("app_event_index")}}">events</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{path("app_event_category_index")}}">categories</a></li>
-                    
+                    <li class="nav-item"><a class="nav-link active" href="{{path("app_task")}}"><i class="fas fa-tasks"></i> tasks</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{path("app_user_index")}}"> <i class="fas fa-users-cog"></i> users</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{path("app_event_index")}}"> <i class="fas fa-thumbtack"></i> events</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{path("app_event_category_index")}}"> <i class="fas fa-dumpster"></i> categories</a></li>
+
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item"><a class="nav-link active" href="{{path("app_admin")}}"><i class="fa-solid fa-address-card"></i> ADMIN</a></li>
                     {% endif %}
 
-                    
+
                     {% if not app.user %}
                     <div class="d-flex">
                         <li class="nav-item"><a class="nav-link active" href="{{path("app_login")}}">login</a></li>
