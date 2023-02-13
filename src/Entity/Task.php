@@ -35,6 +35,9 @@ class Task
     #[ORM\Column]
     private ?int $state = 2;
 
+    #[ORM\Column(nullable: true)]
+    private array $chore = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Task
     public function setState(int $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getChore(): array
+    {
+        return $this->chore;
+    }
+
+    public function setChore(?array $chore): self
+    {
+        $this->chore = $chore;
 
         return $this;
     }

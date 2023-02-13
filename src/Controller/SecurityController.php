@@ -29,11 +29,11 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    public static function checkCompany($object, $user, $item): Response
+    public static function checkCompany($object, $userCompanyNIF, $itemCompanyNIF): Response
     {
-        if($user->getCompany()->getNif()!=$item->getCompany()->getNif()){
+        if($userCompanyNIF!=$itemCompanyNIF){
             throw $object->createNotFoundException(
-                'id '.$item->getId().' Not found'
+                'Not found'
             );
         }
         return new Response(Response::HTTP_OK);

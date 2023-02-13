@@ -10,6 +10,8 @@ use App\Repository\UserRepository;
 use App\Repository\TaskRepository;
 use App\Repository\EventRepository;
 use App\Entity\Task;
+use App\Entity\Event;
+use App\Entity\User;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -20,7 +22,6 @@ class AdminController extends AbstractController
     #[Route('/', name: 'app_admin', methods: ['GET'])]
     public function index(Request $request, UserRepository $userRepository, TaskRepository $taskRepository): Response
     {
-
         $filter_month = $request->get('mes');
         $filter_year = $request->get('año');
 
@@ -81,55 +82,6 @@ class AdminController extends AbstractController
             'years' => $years,
             'meses' => $months_tmp,
             'filter_month' => $filter_month
-        ]);
-    }
-
-    #[Route('/user/{id}', name: 'app_admin_user_report', methods: ["GET"])]
-    public function userReport(Request $request, UserRepository $userRepository, TaskRepository $taskRepository, $id): Response
-    {
-        $month=null;
-        $tasks=[];
-
-        if($request->get("month")>0 && $request->get("month")<13){
-            $month = $request->get("month");
-            $tasks = $taskRepository->findByMonth($request->get("month"), $this->getUser()->getId() );
-            $filter = $request->get("month");
-            $tasks = [];
-
-            if ($filter > 0 && $filter < 13) {
-                $tasks = $taskRepository->findByMonth($filter, $this->getUser()->getId());
-
-                //Conversion to Twig format.
-                array_walk($tasks, function (&$item) {
-                    $item['starttime'] = $item['start_time'];
-                    unset($item['start_time']);
-                    $item['endtime'] = $item['end_time'];
-                    unset($item['end_time']);
-                });
-
-            } else {
-                $tasks = $this->getUser()->getTasks();
-            }
-
-            return $this->render('admin/show.html.twig', [
-                'tasks' => $tasks,
-                'filter' => $month,
-            ]);
-        }
-    }
-
-
-    #[Route('/event/{id}', name: 'app_admin_event_report', methods: ["GET"])]
-    public function eventReport(TaskRepository $taskRepository, EventRepository $eventRepository, $id): Response
-    {
-        $event = $eventRepository->find($id);
-        $tasks = $event->getTasks();
-        $arrayTasks = $taskRepository->findBy(
-            ["Event" => $id],
-            ["state" => "ASC"]);
-
-        return $this->render('admin/event.html.twig', [
-            'tasks' => $arrayTasks,
         ]);
     }
 
