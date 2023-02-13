@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\EventRepository;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,13 +24,23 @@ class WarehouseController extends AbstractController
         ]);
     }
     #[Route('/warehouse/vacations', name: 'app_warehouse_vacation')]
-    public function index(TaskRepository $taskRepository, EventRepository $eventRepository): Response
+    public function vacation(Request $request, TaskRepository $taskRepository, EventRepository $eventRepository): Response
     {
+        $task = new Task();
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
+
+        $task->setTaskId($taskRepository->findOneById(1));
         
+        if ($form->isSubmitted() && $form->isValid()) {
+            $taskRepository->save($task, true);
+
+            return $this->redirectToRoute('app_warehouse', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('warehouse/vacation.html.twig', [
-            'controller_name' => 'WarehouseController',
-            
-            
+            'task' => $task,
+            'form' => $form,
         ]);
     }
 }
