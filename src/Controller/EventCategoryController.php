@@ -12,10 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/event/category')]
 class EventCategoryController extends AbstractController
 {
-    #[Route('/', name: 'app_event_category_index', methods: ['GET'])]
+    #[Route('/admin/category', name: 'app_event_category_index', methods: ['GET'])]
     public function index(EventCategoryRepository $eventCategoryRepository): Response
     {
         return $this->render('event_category/index.html.twig', [
@@ -23,7 +22,7 @@ class EventCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_event_category_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/category/new', name: 'app_event_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EventCategoryRepository $eventCategoryRepository): Response
     {
         $eventCategory = new EventCategory();
@@ -42,7 +41,7 @@ class EventCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_event_category_show', methods: ['GET'])]
+    #[Route('/admin/category/{id}', name: 'app_event_category_show', methods: ['GET'])]
     public function show(EventCategory $eventCategory): Response
     {
         return $this->render('event_category/show.html.twig', [
@@ -50,7 +49,7 @@ class EventCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_event_category_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/category/{id}/edit', name: 'app_event_category_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EventCategory $eventCategory, EventCategoryRepository $eventCategoryRepository): Response
     {
         $form = $this->createForm(EventCategoryType::class, $eventCategory);
@@ -68,7 +67,7 @@ class EventCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_event_category_delete', methods: ['POST'])]
+    #[Route('/admin/category/{id}', name: 'app_event_category_delete', methods: ['POST'])]
     public function delete(Request $request, EventCategory $eventCategory, EventCategoryRepository $eventCategoryRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$eventCategory->getId(), $request->request->get('_token'))) {
