@@ -18,8 +18,9 @@
         <thead>
             <tr>
                 <th class="text-center">Username</th>
-                <th class="text-center">State</th>
+                <th class="text-center">State Request</th>
                 <th class="text-center">Actions</th>
+                <th class="text-center">Chore</th>
             </tr>
         </thead>
         <tbody>
@@ -27,17 +28,29 @@
             <tr>
                 <td class="text-center">{{ task.user }}</td>
                 <td class="text-center">
-                {% if task.state == 2 %}
+                {% if task.staterequest == NULL %}
                     <p>❔</p>
-                    {% elseif task.state == 0 %}
+                    {% elseif task.staterequest == 1 %}
                         <p class="accept">✅</p>
-                    {% elseif task.state == 1 %}
+                    {% elseif task.staterequest == 0 %}
                         <p class="deny">⛔</p>
                 {% endif %}
                 </td>
                 <td class="text-center">
-                    <a href="{{ path('app_user_show', {'id': task.id}) }}">Accept</a>
-                    <a href="{{ path('app_user_edit', {'id': task.id}) }}">Deny</a>
+                {% if task.staterequest == 1 %}
+                <form method="POST">
+                    <input type="submit" value="Accept"/>
+                    <input type="submit" value="Deny"/>
+                </form>
+                {% endif %}
+                </td>
+                <td class="text-center">
+                {% if task.staterequest == 1 %}
+                    <label>Coordinador</label>
+                    <input type="checkbox" value="coordinator"/>
+                    <label>Conductor</label>
+                    <input type="checkbox" value="driver"/> 
+                {% endif %}
                 </td>
             </tr>
         {% else %}
