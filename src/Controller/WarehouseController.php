@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
+use App\Entity\Task;
+use App\Form\TaskType;
 use App\Repository\EventRepository;
 use App\Repository\TaskRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,16 +27,25 @@ class WarehouseController extends AbstractController
             
         ]);
     }
-    #[Route('/warehouse/vacations', name: 'app_warehouse_vacation')]
+    #[Route('/warehouse/vacations', name: 'app_warehouse_vacation',  methods: ['GET', 'POST'])]
     public function vacation(Request $request, TaskRepository $taskRepository, EventRepository $eventRepository): Response
     {
+        $fechainicio = new DateTime($request->get('date-i'));
+        // $fechainicio =\DateTime::createFromFormat("d/m/Y H:i",strtotime($request->get('date-i')))->format("Y-m-d H:i:s");
+        $fechafin = new DateTime($request->get('date-f'));
+        $event = new Event();
+        $event->setName("Vacaciones | ".$this->getUser()->getUsername());
+        $event->setStartDate($fechainicio);
+        $event->setEndDate($fechafin);
+        $event->setHidden(0);
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
-
-        $task->setTaskId($taskRepository->findOneById(1));
+        
+        // $task->setTaskId($taskRepository->findOneById(1));
         
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $taskRepository->save($task, true);
 
             return $this->redirectToRoute('app_warehouse', [], Response::HTTP_SEE_OTHER);
@@ -40,7 +53,7 @@ class WarehouseController extends AbstractController
 
         return $this->render('warehouse/vacation.html.twig', [
             'task' => $task,
-            'form' => $form,
+            // 'form' => $form,
         ]);
     }
 }
