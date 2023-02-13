@@ -38,6 +38,11 @@ class WarehouseController extends AbstractController
         $event->setStartDate($fechainicio);
         $event->setEndDate($fechafin);
         $event->setHidden(0);
+        $event->setSchedule(' ');
+        $event->setLinkInformation(' ');
+        $event->setWorkersNumber(1);
+        $event->setHidden(1);
+        $eventRepository->save($event, true);
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
