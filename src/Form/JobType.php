@@ -14,7 +14,6 @@ class JobType extends AbstractType
         $builder
             ->add('description')
             ->add('time')
-            ->add('task_id')
         ;
     }
 

@@ -46,6 +46,9 @@ class Event
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?EventCategory $category = null;
 
+    #[ORM\Column]
+    private ?int $hidden = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -195,5 +198,17 @@ class Event
     }
     public function __toString(){
         return $this->name;
+    }
+
+    public function getHidden(): ?int
+    {
+        return $this->hidden;
+    }
+
+    public function setHidden(int $hidden): self
+    {
+        $this->hidden = $hidden;
+
+        return $this;
     }
 }

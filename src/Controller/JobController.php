@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Job;
 use App\Form\JobType;
 use App\Repository\JobRepository;
+use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,16 +23,18 @@ class JobController extends AbstractController
     }
 
     #[Route('/new', name: 'app_job_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, JobRepository $jobRepository): Response
+    public function new(Request $request, JobRepository $jobRepository, TaskRepository $taskRepository): Response
     {
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
+        $job->setTaskId($taskRepository->findOneById(1));
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $jobRepository->save($job, true);
 
-            return $this->redirectToRoute('app_job_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_warehouse', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('job/new.html.twig', [
@@ -67,12 +70,13 @@ class JobController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_job_delete', methods: ['POST'])]
-    public function delete(Request $request, Job $job, JobRepository $jobRepository): Response
+    public function delete(Request $request, Job $job, JobRepository $jobRepository, TaskRepository $taskRepository): Response
     {
+
+        $task = $job->getTaskId();
         if ($this->isCsrfTokenValid('delete'.$job->getId(), $request->request->get('_token'))) {
             $jobRepository->remove($job, true);
         }
-
-        return $this->redirectToRoute('app_job_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_task_show', ['id' => $task,], Response::HTTP_SEE_OTHER);
     }
 }

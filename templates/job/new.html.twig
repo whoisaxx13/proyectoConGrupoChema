@@ -1,11 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Job{% endblock %}
+{% block title %}New Job
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Job</h1>
+	<div class="m-0 p-0">
+		<a class="" href="{{ path('app_task_show', {'id': job.taskid.id}) }}">📅 Volver</a>
+		{# Esto vuelve a la vista de la tarea su tenemos que pasar a esta vista la task de este trabajo #}
+	</div>
 
-    {{ include('job/_form.html.twig') }}
+	<h1 class="mb-auto text-center font-italic Italica mt-5">Trabajo</h1>
+	<div class="container mt-5">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-6">
+				<div class="card shadow p-3 mb-5 bg-white rounded">
+					<div class="card-body">
+						{{ include('job/_form.html.twig') }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <a href="{{ path('app_job_index') }}">back to list</a>
+
 {% endblock %}

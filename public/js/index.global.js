@@ -718,7 +718,7 @@ var FullCalendar = (function (exports) {
         return true;
     }
 
-    const DAY_IDS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const DAY_IDS = ['DOM', 'LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB'];
     // Adding
     function addWeeks(m, n) {
         let a = dateToUtcArray(m);
@@ -7645,7 +7645,7 @@ var FullCalendar = (function (exports) {
     const globalLocales = [];
 
     const MINIMAL_RAW_EN_LOCALE = {
-        code: 'en',
+        code: 'es',
         week: {
             dow: 0,
             doy: 4, // 4 days need to be within the year to be considered the first week

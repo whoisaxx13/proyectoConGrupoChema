@@ -28,8 +28,6 @@ class Task
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $state_request = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $extra_time = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?User $User = null;
@@ -39,6 +37,12 @@ class Task
 
     #[ORM\OneToMany(mappedBy: 'task_id', targetEntity: Job::class)]
     private Collection $jobs;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $type = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $extra_time = null;
 
     public function __construct()
     {
@@ -50,7 +54,7 @@ class Task
         return $this->id;
     }
 
-    public function getStart_Time(): ?\DateTimeInterface
+    public function getStartTime(): ?\DateTimeInterface
     {
         return $this->start_time;
     }
@@ -62,7 +66,7 @@ class Task
         return $this;
     }
 
-    public function getEnd_Time(): ?\DateTimeInterface
+    public function getEndTime(): ?\DateTimeInterface
     {
         return $this->end_time;
     }
@@ -98,17 +102,7 @@ class Task
         return $this;
     }
 
-    public function getExtraTime(): ?\DateTimeInterface
-    {
-        return $this->extra_time;
-    }
 
-    public function setExtraTime(?\DateTimeInterface $extra_time): self
-    {
-        $this->extra_time = $extra_time;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -135,15 +129,15 @@ class Task
     }
     public function getTotalTime(): int
     {
-      $res=0;
-      $res= ($this->end_time->getTimestamp()-$this->start_time->getTimestamp())/(3600);
+    $res=0;
+    $res= ($this->end_time->getTimestamp()-$this->start_time->getTimestamp()+$this->extra_time)/(3600);
 
-      return $res;
+    return $res;
     }
 
     /**
-     * @return Collection<int, Job>
-     */
+    * @return Collection<int, Job>
+    */
     public function getJobs(): Collection
     {
         return $this->jobs;
@@ -167,6 +161,33 @@ class Task
                 $job->setTaskId(null);
             }
         }
+
+        return $this;
+    }
+    public function __toString(): string {
+        return $this->id;
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getExtraTime(): ?int
+    {
+        return $this->extra_time;
+    }
+
+    public function setExtraTime(?int $extra_time): self
+    {
+        $this->extra_time = $extra_time;
 
         return $this;
     }

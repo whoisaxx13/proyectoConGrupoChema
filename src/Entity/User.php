@@ -56,6 +56,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $monthlytime = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $remaininghours = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastLogin = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -232,7 +238,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function __toString(){
+    public function __toString()
+    {
         return $this->username;
     }
 
@@ -246,5 +253,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->monthlytime = $monthlytime;
 
         return $this;
+    }
+
+    public function getRemaininghours(): ?int
+    {
+        return $this->remaininghours;
+    }
+
+    public function setRemaininghours(?int $remaininghours): self
+    {
+        $this->remaininghours += $remaininghours;
+
+        return $this;
+    }
+
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+    public function changeRemainingHours(){
+        if($this->lastLogin->format('m') != (new \Datetime('now'))->format('m')){
+            if((new \Datetime('now'))->format('m')=='01'){
+                $this->setRemaininghours($this->monthlytime);
+            }else{
+                $this->setRemaininghours(((new \Datetime('2023-03-12'))->format('m')-$this->lastLogin->format('m'))*$this->monthlytime);
+            }
+        }
     }
 }
