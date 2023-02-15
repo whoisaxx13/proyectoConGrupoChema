@@ -27,6 +27,7 @@
         {% for task in tasks %}
             <tr>
                 <td class="text-center">{{ task.user }}</td>
+
                 <td class="text-center">
                 {% if task.staterequest == NULL %}
                     <p>❔</p>
@@ -35,21 +36,32 @@
                     {% elseif task.staterequest == 0 %}
                         <p class="deny">⛔</p>
                 {% endif %}
+
                 </td>
                 <td class="text-center">
                 {% if task.staterequest == 1 %}
-                <form method="POST">
-                    <input type="submit" value="Accept"/>
-                    <input type="submit" value="Deny"/>
-                </form>
+                    <a href="{{path("app_task_resolve",{"id":task.id, "state":1})}}">Accept</a>
+                    <a href="{{path("app_task_resolve",{"id":task.id, "state":0})}}">Deny</a>
                 {% endif %}
                 </td>
+
                 <td class="text-center">
-                {% if task.staterequest == 1 %}
+                {% if task.state == 1 %}
+                <form method="GET" action="{{path("app_task_resolve",{"id":task.id}) }}">
                     <label>Coordinador</label>
-                    <input type="checkbox" value="coordinator"/>
+                    {% if "ROLE_COORDINATOR" in task.chore %}
+                        <input checked="true" type="checkbox" name="coordinator" value="1"/>
+                        {% else %}
+                        <input type="checkbox" name="coordinator" value="1"/>
+                    {% endif %}
                     <label>Conductor</label>
-                    <input type="checkbox" value="driver"/> 
+                    {% if "ROLE_DRIVER" in task.chore %}
+                        <input checked="true" type="checkbox" name="driver" value="1"/> 
+                        {% else %}
+                        <input type="checkbox" name="driver" value="1"/> 
+                    {% endif %}
+                    <button type="submit">Update</button>
+                </form>
                 {% endif %}
                 </td>
             </tr>
