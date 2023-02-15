@@ -23,7 +23,7 @@ class WarehouseController extends AbstractController
             'controller_name' => 'WarehouseController',
             'tareas' => $taskRepository->findAll(),
             'eventrep'=>$eventRepository,
-            'horasmensuales'=>$taskRepository->getHorasRealizadas($taskRepository->getHorasMensuales('2023', '02'))
+            'horasmensuales'=>$taskRepository->getHorasRealizadas($taskRepository->getHorasMensuales(date('Y'), date('m')))
             
         ]);
     }
@@ -42,23 +42,32 @@ class WarehouseController extends AbstractController
         $event->setLinkInformation(' ');
         $event->setWorkersNumber(1);
         $event->setHidden(1);
-        $eventRepository->save($event, true);
+        
         $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
-        $form->handleRequest($request);
+        $task->setUser($this->getUser());
+        $task->setStart_Time($fechainicio);
+        $task->setEnd_Time($fechafin);
+        $task->setEvent($event);
+        $task->setType(2);
         
         // $task->setTaskId($taskRepository->findOneById(1));
-        
-        if ($form->isSubmitted() && $form->isValid()) {
             
+        if($request->get('date-i')){
+            $eventRepository->save($event, true);
             $taskRepository->save($task, true);
+            return $this->redirectToRoute('app_warehouse', [
+                'controller_name' => 'WarehouseController',
+                'tareas' => $taskRepository->findAll(),
+                'eventrep'=>$eventRepository,
+                'horasmensuales'=>$taskRepository->getHorasRealizadas($taskRepository->getHorasMensuales(date('Y'), date('m')))
+            ], Response::HTTP_SEE_OTHER);
+        }else{
 
-            return $this->redirectToRoute('app_warehouse', [], Response::HTTP_SEE_OTHER);
+            return $this->render('warehouse/vacation.html.twig', [
+                'task' => $task,
+                // 'form' => $form,
+            ]);
         }
 
-        return $this->render('warehouse/vacation.html.twig', [
-            'task' => $task,
-            // 'form' => $form,
-        ]);
     }
 }
