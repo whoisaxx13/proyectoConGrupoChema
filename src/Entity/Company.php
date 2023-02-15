@@ -33,6 +33,9 @@ class Company
     #[ORM\Column(length: 255)]
     private ?string $ccc = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $salaryperhour = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -153,6 +156,18 @@ class Company
     public function setCcc(string $ccc): self
     {
         $this->ccc = $ccc;
+
+        return $this;
+    }
+
+    public function getSalaryperhour(): ?int
+    {
+        return $this->salaryperhour;
+    }
+
+    public function setSalaryperhour(?int $salaryperhour): self
+    {
+        $this->salaryperhour = $salaryperhour;
 
         return $this;
     }

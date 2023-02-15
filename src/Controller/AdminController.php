@@ -22,6 +22,7 @@ class AdminController extends AbstractController
     #[Route('/', name: 'app_admin', methods: ['GET'])]
     public function index(Request $request, UserRepository $userRepository, TaskRepository $taskRepository): Response
     {
+
         $filter_month = $request->get('mes');
         $filter_year = $request->get('año');
 
@@ -42,12 +43,17 @@ class AdminController extends AbstractController
         foreach ($users as $user) {
 
             $tasks = $taskRepository->findByDate($filter, $user);
+            $salaryperhour = $user->getCompany()->getSalaryperhour();
+
 
             $hours = 0;
             $minutes = 0;
 
-
             foreach ($tasks as $task) {
+                $chore = $task->getChore();
+
+                if (in_array('ROLE_COORDINATOR', $chore)) $hours = 4;
+                if (in_array('ROLE_COORDINATOR', $chore)) $hours = 6;
 
                 $hours += $task->getStartTime()->diff($task->getEndTime())->h;
                 $minutes += $task->getStartTime()->diff($task->getEndTime())->i;
@@ -63,6 +69,7 @@ class AdminController extends AbstractController
             $objectUser->hours = $hours;
             $objectUser->minutes = $minutes < 10 ? "0$minutes" : $minutes;
             $objectUser->date = "$filter_month/$filter_year";
+            $objectUser->salary = $hours*$salaryperhour;
 
             $user_logs[] = $objectUser;
 
@@ -81,7 +88,7 @@ class AdminController extends AbstractController
             'trabajadores' => $user_logs,
             'years' => $years,
             'meses' => $months_tmp,
-            'filter_month' => $filter_month
+            'filter_month' => $filter_month,
         ]);
     }
 
