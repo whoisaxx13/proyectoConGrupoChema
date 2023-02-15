@@ -28,13 +28,13 @@
                 start: '{{tarea.starttime  | date('Y-m-d')}}',
                 end: '{{ tarea.endtime|date_modify("+1 day")|date("Y-m-d") }}',
                 url: '/task/{{tarea.id}}',
-                textColor: 'black',
+                textColor: 'white',
                 {% if tarea.type == 0 %}
-                  backgroundColor: 'rgb(22, 208, 84)',
+                  backgroundColor: '#198754',
                 {% elseif tarea.type == 1 %}
-                  backgroundColor: 'rgb(22, 208, 204)',
+                  backgroundColor: '#0074d9',
                 {% else %}
-                  backgroundColor: 'rgb(208, 190, 22)',
+                  backgroundColor: '#ffc107',
                 {% endif %}
             },
         {% endfor %}
