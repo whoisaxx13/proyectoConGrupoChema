@@ -252,9 +252,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->monthlytime;
     }
 
-    public function setMonthlytime(int $monthlytime): self
+    public function setMonthlytime(int $monthlytime): int
     {
-        $this->monthlytime = $monthlytime;
+        return $this->monthlytime = $monthlytime;
     }
 
     public function getCompany(): ?Company
@@ -276,7 +276,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRemaininghours(?int $remaininghours): self
     {
-        $this->remaininghours += $remaininghours;
+        return $this->remaininghours += $remaininghours;
     }
         
     public function getNaf(): ?string

@@ -42,6 +42,7 @@ class WarehouseController extends AbstractController
         $event->setLinkInformation(' ');
         $event->setWorkersNumber(1);
         $event->setHidden(1);
+        $event->setCompany($this->getUser()->getCompany());
         
         $task = new Task();
         $task->setUser($this->getUser());

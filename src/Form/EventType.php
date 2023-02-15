@@ -15,7 +15,6 @@ class EventType extends AbstractType
             ->add('name')
             ->add('schedule')
             ->add('linkInformation')
-            ->add('eventCategory')
             ->add('linkForm')
             ->add('workers_number')
         ;

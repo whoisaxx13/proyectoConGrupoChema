@@ -19,11 +19,6 @@ class Event
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $start_date = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $end_date = null;
 
     #[ORM\Column(length: 255)]
     private ?string $schedule = null;
@@ -31,9 +26,7 @@ class Event
     #[ORM\Column(length: 255)]
     private ?string $linkInformation = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $eventCategory = null;
-
+    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $linkForm = null;
 
@@ -47,10 +40,17 @@ class Event
     private ?EventCategory $category = null;
 
     #[ORM\Column]
-    private ?int $hidden = null;
+    private ?int $hidden = 0;
+    
     #[ORM\ManyToOne(inversedBy: 'events')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $startDate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $endDate = null;
 
     public function __construct()
     {
@@ -74,29 +74,6 @@ class Event
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
-    {
-        return $this->start_date;
-    }
-
-    public function setStartDate(\DateTimeInterface $start_date): self
-    {
-        $this->start_date = $start_date;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->end_date;
-    }
-
-    public function setEndDate(\DateTimeInterface $end_date): self
-    {
-        $this->end_date = $end_date;
-
-        return $this;
-    }
 
     public function getSchedule(): ?string
     {
@@ -122,17 +99,6 @@ class Event
         return $this;
     }
 
-    public function getEventCategory(): ?string
-    {
-        return $this->eventCategory;
-    }
-
-    public function setEventCategory(?string $eventCategory): self
-    {
-        $this->eventCategory = $eventCategory;
-
-        return $this;
-    }
 
     public function getLinkForm(): ?string
     {
@@ -208,7 +174,7 @@ class Event
         return $this->hidden;
     }
 
-    public function setHidden(int $hidden): self
+    public function setHidden(int $hidden): void
     {
         $this->hidden = $hidden;
     }
@@ -220,6 +186,30 @@ class Event
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(?\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(?\DateTimeInterface $endDate): self
+    {
+        $this->endDate = $endDate;
 
         return $this;
     }

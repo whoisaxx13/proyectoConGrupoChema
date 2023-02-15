@@ -32,7 +32,6 @@ class Task
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Event $Event = null;
 
-<<<<<<< HEAD
     #[ORM\OneToMany(mappedBy: 'task_id', targetEntity: Job::class)]
     private Collection $jobs;
 
@@ -46,13 +45,11 @@ class Task
     {
         $this->jobs = new ArrayCollection();
     }
-=======
     #[ORM\Column]
     private ?int $state = 2;
 
     #[ORM\Column(nullable: true)]
     private array $chore = [];
->>>>>>> origin/administration
 
     public function getId(): ?int
     {
@@ -139,7 +136,7 @@ class Task
             $this->jobs->add($job);
             $job->setTaskId($this);
         }
-
+    }
     public function getState(): ?int
     {
         return $this->state;

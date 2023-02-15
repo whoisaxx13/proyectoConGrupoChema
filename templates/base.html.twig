@@ -26,7 +26,7 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <ul class="navbar-nav container-fluid me-auto justify-content-around">
                 {% if is_granted("ROLE_USER") %}
-                    <li class="nav-item"><a class="nav-link active" href="{{path("app_task")}}"><i class="fas fa-tasks"></i> tasks</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{path("app_task_index")}}"><i class="fas fa-tasks"></i> tasks</a></li>
                     <li class="nav-item"><a class="nav-link active" href="{{path("app_event_index")}}"> <i class="fas fa-thumbtack"></i> events</a></li>
                 {% endif %}
                     
@@ -42,7 +42,7 @@
                     {% endif %}
                     
                 </ul>
-            </nav> #}
+            </nav> 
         {% endblock %}
         {% block body %}{% endblock %}
     </body>
