@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin View{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .accept{
+        color:green;
+    }
+    .deny{
+        color:red;
+    }
+</style>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">Username</th>
+                <th class="text-center">State Request</th>
+                <th class="text-center">Actions</th>
+                <th class="text-center">Chore</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td class="text-center">{{ task.user }}</td>
+
+                <td class="text-center">
+                {% if task.staterequest == NULL %}
+                    <p>❔</p>
+                    {% elseif task.staterequest == 1 %}
+                        <p class="accept">✅</p>
+                    {% elseif task.staterequest == 0 %}
+                        <p class="deny">⛔</p>
+                {% endif %}
+
+                </td>
+                <td class="text-center">
+                {% if task.staterequest == 1 %}
+                    <a href="{{path("app_task_resolve",{"id":task.id, "state":1})}}">Accept</a>
+                    <a href="{{path("app_task_resolve",{"id":task.id, "state":0})}}">Deny</a>
+                {% endif %}
+                </td>
+
+                <td class="text-center">
+                {% if task.state == 1 %}
+                <form method="GET" action="{{path("app_task_resolve",{"id":task.id}) }}">
+                    <label>Coordinador</label>
+                    {% if "ROLE_COORDINATOR" in task.chore %}
+                        <input checked="true" type="checkbox" name="coordinator" value="1"/>
+                        {% else %}
+                        <input type="checkbox" name="coordinator" value="1"/>
+                    {% endif %}
+                    <label>Conductor</label>
+                    {% if "ROLE_DRIVER" in task.chore %}
+                        <input checked="true" type="checkbox" name="driver" value="1"/> 
+                        {% else %}
+                        <input type="checkbox" name="driver" value="1"/> 
+                    {% endif %}
+                    <button type="submit">Update</button>
+                </form>
+                {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

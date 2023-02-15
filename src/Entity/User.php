@@ -61,6 +61,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLogin = null;
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $company = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $naf = null;
 
     public function __construct()
     {
@@ -100,8 +106,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -251,6 +255,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMonthlytime(int $monthlytime): self
     {
         $this->monthlytime = $monthlytime;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }
@@ -263,6 +277,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRemaininghours(?int $remaininghours): self
     {
         $this->remaininghours += $remaininghours;
+    }
+        
+    public function getNaf(): ?string
+    {
+        return $this->naf;
+    }
+
+    public function setNaf(?string $naf): self
+    {
+        $this->naf = $naf;
 
         return $this;
     }

@@ -2,25 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\EventCategory;
+use App\Entity\Company;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-#[IsGranted('ROLE_ADMIN')]
-class EventCategoryType extends AbstractType
+class CompanyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('title')
+            ->add('nif')
+            ->add('ccc')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => EventCategory::class,
+            'data_class' => Company::class,
         ]);
     }
 }

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Company index{% endblock %}
+
+{% block body %}
+    <h1>Company index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Nif</th>
+                <th>CCC</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for company in companies %}
+            <tr>
+                <td>{{ company.title }}</td>
+                <td>{{ company.nif }}</td>
+                <td>{{ company.ccc}}</td>
+                <td>
+                <a href="{{path('app_company_show', {'nif':company.nif})}}">show</a>
+                <a href="{{path('app_company_edit', {'id':company.id})}}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_company_new') }}">Create new</a>
+{% endblock %}

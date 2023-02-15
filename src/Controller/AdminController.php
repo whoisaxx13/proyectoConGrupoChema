@@ -7,42 +7,53 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\TaskRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
 
     #[Route('/', name: 'app_admin', methods: ['GET'])]
-    public function index(Request $request, UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository, TaskRepository $taskRepository): Response
     {
 
         $filter_month = $request->get('mes');
         $filter_year = $request->get('año');
-        $users = $userRepository->findAll();
+
+        if(!isset($filter_year)){
+            $filter_year = date("Y");
+        }
+
+        if(!isset($filter_month)){
+            $filter_month = (int) date('m') - 1;
+            if(!isset($filter_year)) $filter_year = $filter_month == 12 ? (int) $filter_year -1 : $filter_year;
+        }
+
+        $filter = "$filter_year-" . ((int)$filter_month < 10 ? "0$filter_month" : $filter_month);
+
+        $users = $userRepository->findByCompany($this->getUser()->getCompany());
 
         $user_logs = [];
+        foreach ($users as $user) {
 
-        foreach ($users as $user){
-            $tasks = $user->getTasks();
+            $tasks = $taskRepository->findByDate($filter, $user);
+            $salaryperhour = $user->getCompany()->getSalaryperhour();
+
 
             $hours = 0;
             $minutes = 0;
 
-            foreach ($tasks as $task){
+            foreach ($tasks as $task) {
+                $chore = $task->getChore();
 
-                if(!isset($filter_year)){
-                    $filter_year = date("Y");
-                }
+                if (in_array('ROLE_COORDINATOR', $chore)) $hours = 4;
+                if (in_array('ROLE_COORDINATOR', $chore)) $hours = 6;
 
-                if(!isset($filter_month)){
-                    $filter_month = (int) date('m') - 1;
-                    if(!isset($filter_year)) $filter_year = $filter_month == 12 ? (int) $filter_year -1 : $filter_year;
-                }
+                $hours += $task->getStartTime()->diff($task->getEndTime())->h;
+                $minutes += $task->getStartTime()->diff($task->getEndTime())->i;
 
-                if($filter_month == $task->getStartTime()->format('m') && $filter_year == $task->getStartTime()->format('Y')){
-                    $hours += $task->getStartTime()->diff($task->getEndTime())->h;
-                    $minutes += $task->getStartTime()->diff($task->getEndTime())->i;
-                }
             }
 
             $hours += floor($minutes / 60);
@@ -52,6 +63,9 @@ class AdminController extends AbstractController
             $objectUser->id = $user->getId();
             $objectUser->fullname = $user->getFullName();
             $objectUser->hours = $hours;
+            $objectUser->minutes = $minutes < 10 ? "0$minutes" : $minutes;
+            $objectUser->date = "$filter_month/$filter_year";
+            $objectUser->salary = $hours*$salaryperhour;
 
             $user_logs[] = $objectUser;
         }
@@ -69,42 +83,8 @@ class AdminController extends AbstractController
             'trabajadores' => $user_logs,
             'years' => $years,
             'meses' => $months_tmp,
-            'filter_month' => $filter_month
+            'filter_month' => $filter_month,
         ]);
     }
 
-    #[Route('/user/{dni}', name: 'app_admin_user_report', methods:["GET"])]
-    public function userReport(Request $request, UserRepository $userRepository, $dni): Response
-    {
-        $filter=$request->get("month");
-        $tasksFiltered=[];
-
-        $user = $userRepository->find($dni);
-        $userTasks = $user->getTasks()->getValues();
-
-        if($filter>0 && $filter<13){
-            if($filter>0 && $filter<10){
-                $filter="0".$filter;
-            }
-            for ($i=0; $i < count($userTasks); $i++) { 
-                if($filter===$userTasks[$i]->getStartTime()->format("m")){
-                    $tasksFiltered[]=$userTasks[$i];
-                }
-            }
-        } else {
-            $tasksFiltered = $userTasks;
-        }
-        $arrStart = [];
-        for ($i=0; $i <count($tasksFiltered) ; $i++) { 
-            $arrStart[]= $tasksFiltered[$i]->getStartTime();
-        }
-        array_multisort($arrStart, SORT_ASC, $tasksFiltered);
-
-        return $this->render('admin/show.html.twig', [
-            'user' => $user,
-            'tasks' => $tasksFiltered,
-            'startTime' => $arrStart,
-        ]);
-    }
-    
 }

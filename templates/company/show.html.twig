@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Company{% endblock %}
+
+{% block body %}
+    <h1>Company</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ company.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ company.title }}</td>
+            </tr>
+            <tr>
+                <th>Nif</th>
+                <td>{{ company.nif }}</td>
+            </tr>
+            <tr>
+                <th</th>
+                <td>{{ company.ccc }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{path("app_register", {'nif': company.nif})}}">Registrar en la compañía</a>
+{% endblock %}
+

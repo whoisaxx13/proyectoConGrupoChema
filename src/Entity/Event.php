@@ -48,6 +48,9 @@ class Event
 
     #[ORM\Column]
     private ?int $hidden = null;
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $company = null;
 
     public function __construct()
     {
@@ -208,6 +211,15 @@ class Event
     public function setHidden(int $hidden): self
     {
         $this->hidden = $hidden;
+    }
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }

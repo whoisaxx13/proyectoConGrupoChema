@@ -7,9 +7,10 @@
 
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+.example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-    <form class="row mx-2">
+
+    <form class="mx-2 row">
 
         <select name="mes" class="form-control col-5">
             {% for key, mes in meses %}
@@ -50,6 +51,4 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
-
 {% endblock %}

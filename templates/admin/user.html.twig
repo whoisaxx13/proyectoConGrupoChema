@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>{{user.username}} - User Report</h1>
+    <form action="{{path("app_user_report", {id: user.id})}}" method="get">
+    Filter by month:
+        <select name="month" id="month">
+            {% for j in range(1, 12) %}
+                {% if filter and (j==filter) %}
+                    <option  value={{j}} selected='selected'>{{ date('2012-' ~ j ~ '-01') |date('m') }} </option>
+                    {% else %}
+                    <option value={{j}} >{{ date('2012-' ~ j ~ '-01') |date('m') }}</option>
+                {% endif %}
+            {% endfor %}    
+        </select>
+        <button type="submit">Filter</button>
+        <a href="{{path("app_user_report", {id: user.id})}}">reset</a>
+    </form>
+    <main>
+        <div>Empresa: {{user.company.nif}}</div>
+        <div>Trabajador: {{user.dni}}</div>
+        <div>Periodo: 
+        {% if filter %}
+            {% if filter < 10 %}
+                0{{filter}}-2023
+                {% else %}
+                {{filter}}-2023
+            {% endif %}
+            {% else %}
+            2023
+        {% endif %}
+        </div>
+        
+        <table class="table">
+            <thead>
+                <th>Day </th>
+                <th>Start </th>
+                <th>End </th>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{task.starttime| date ("d-m-Y")}}</td>
+                    <td>{{task.starttime | date ("H:i")}}</td>
+                    <td>{{task.endtime | date ("H:i")}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    
+
+{% endblock %}
+
+

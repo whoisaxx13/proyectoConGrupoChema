@@ -39,9 +39,6 @@ class TaskRepository extends ServiceEntityRepository
         }
     }
 
-       /**
-    * @return Task[] Returns an array of Task objects
-    */
    public function getHorasMensuales( $value, $value2): array
    {
         $tot = $value . '-' . $value2 . '%';
@@ -63,28 +60,34 @@ class TaskRepository extends ServiceEntityRepository
         return $salida;  
    }
 
-//    /**
-//     * @return Task[] Returns an array of Task objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function findByMonth(int $month, int $userid): Array
+    {
+        $conn = $this->getEntityManager()->getConnection();
 
-//    public function findOneBySomeField($value): ?Task
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $sql = '
+            SELECT * FROM task
+            WHERE MONTH(start_time) = :month && user_id = :userid
+            ORDER BY start_time ASC
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['month' => $month, 'userid' => $userid]);
+
+         // returns an array of arrays (raw data set)
+         return $resultSet->fetchAllAssociative();
+    }
+
+    public function findByDate($value, $user): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.end_time LIKE :val AND t.User = :uid')
+            ->setParameter('val', $value.'%')
+            ->setParameter('uid', $user->getId())
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
 }

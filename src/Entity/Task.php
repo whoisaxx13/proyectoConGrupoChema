@@ -22,9 +22,6 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end_time = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $state = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $state_request = null;
 
@@ -35,6 +32,7 @@ class Task
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Event $Event = null;
 
+<<<<<<< HEAD
     #[ORM\OneToMany(mappedBy: 'task_id', targetEntity: Job::class)]
     private Collection $jobs;
 
@@ -48,6 +46,13 @@ class Task
     {
         $this->jobs = new ArrayCollection();
     }
+=======
+    #[ORM\Column]
+    private ?int $state = 2;
+
+    #[ORM\Column(nullable: true)]
+    private array $chore = [];
+>>>>>>> origin/administration
 
     public function getId(): ?int
     {
@@ -74,18 +79,6 @@ class Task
     public function setEnd_Time(?\DateTimeInterface $end_time): self
     {
         $this->end_time = $end_time;
-
-        return $this;
-    }
-
-    public function isState(): ?bool
-    {
-        return $this->state;
-    }
-
-    public function setState(?bool $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
@@ -129,15 +122,12 @@ class Task
     }
     public function getTotalTime(): int
     {
-    $res=0;
-    $res= ($this->end_time->getTimestamp()-$this->start_time->getTimestamp()+$this->extra_time)/(3600);
+      $res=0;
+      $res= ($this->end_time->getTimestamp()-$this->start_time->getTimestamp()+$this->extra_time)/(3600);
 
-    return $res;
+      return $res;
     }
 
-    /**
-    * @return Collection<int, Job>
-    */
     public function getJobs(): Collection
     {
         return $this->jobs;
@@ -149,6 +139,15 @@ class Task
             $this->jobs->add($job);
             $job->setTaskId($this);
         }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }
@@ -188,6 +187,16 @@ class Task
     public function setExtraTime(?int $extra_time): self
     {
         $this->extra_time = $extra_time;
+    }
+
+    public function getChore(): array
+    {
+        return $this->chore;
+    }
+
+    public function setChore(?array $chore): self
+    {
+        $this->chore = $chore;
 
         return $this;
     }
